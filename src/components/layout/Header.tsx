@@ -1,12 +1,18 @@
 "use client";
 
 import { BRAND, NAV_LINKS } from "@/src/lib/constants";
+import { getSession } from "@/src/lib/session";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [session, setSession] = useState<any>(null);
+
+  useEffect(() => {
+    setSession(getSession("user"));
+  }, []);
 
   return (
     <header className="sticky top-0 z-40 border-b border-navy-100 bg-white/90 backdrop-blur">
@@ -41,12 +47,28 @@ export function Header() {
           >
             Apply Now <FaArrowRightLong />
           </Link>
-          <Link
+
+          {/* <Link
             href="/login"
             className="inline-flex items-center justify-center gap-2 rounded-lg  px-5 py-2.5 text-sm font-semibold text-blue-600 shadow-lift transition border border-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2"
           >
             Dashboard Login <FaArrowRightLong />
-          </Link>
+          </Link> */}
+          {session ? (
+            <Link
+              href="/dashboard"
+              className="inline-flex items-center justify-center gap-2 rounded-lg  px-5 py-2.5 text-sm font-semibold text-blue-600 shadow-lift transition border border-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2"
+            >
+              Dashboard <FaArrowRightLong />
+            </Link>
+          ) : (
+            <Link
+              href="/login"
+              className="inline-flex items-center justify-center gap-2 rounded-lg  px-5 py-2.5 text-sm font-semibold text-blue-600 shadow-lift transition border border-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2"
+            >
+              Dashboard Login <FaArrowRightLong />
+            </Link>
+          )}
         </div>
 
         <button

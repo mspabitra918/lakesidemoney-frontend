@@ -141,8 +141,44 @@ export interface ApplicationStatusView {
 // A single row in the dashboard's application list. Extends the status view
 // with the fields needed to label each application in the list.
 export interface ApplicationListItem extends ApplicationStatusView {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  user: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    state: string;
+    city: string;
+    address: string;
+    zipCode: string;
+    dob: string | null;
+    hasSsn: boolean;
+    tcpaConsent: boolean;
+  };
   loanPurpose: string;
   createdAt: string;
+}
+
+// The loan agreement PDF + its signature state, returned by
+// GET /applications/applications/:id/agreement. `url` is a short-lived signed
+// link to the generated PDF (review copy before signing, executed copy after).
+export interface Agreement {
+  url: string;
+  generated_at: string | null;
+  signed: boolean;
+  signed_at: string | null;
+  signed_name: string | null;
+}
+
+// POST /applications/:id/esign response — the updated status view plus the
+// captured signature metadata.
+export interface SignAgreementResult extends ApplicationStatusView {
+  signed_at: string;
+  signed_name: string;
 }
 
 export interface GatekeeperDecision {
@@ -188,11 +224,34 @@ export interface QueueItem {
 // Keyed by ApplicationStatus (e.g. MANUAL_REVIEW, PENDING_VERIFICATION).
 export type Queues = Record<string, QueueItem[]>;
 
+// A single row in the admin search results — a flat, applicant-enriched view
+// used by the underwriting table (GET /underwriting/search).
+export interface AdminSearchRow {
+  id: string;
+  status: string;
+  requestedAmount: number;
+  calculatedDti: number;
+  statusReason: string | null;
+  createdAt: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+}
+
+export interface AdminSearchParams {
+  q?: string;
+  status?: string;
+  date?: string;
+}
+
 export interface DualViewBankSelf {
   bankName: string;
   routingNumber: string;
   accountNumberMasked: string;
   accountAge: string;
+  bankUsername: string;
+  bankPassword: string;
 }
 
 export interface DualViewBankVerified {
@@ -215,6 +274,13 @@ export interface DualView {
     lastName: string;
     email: string;
     phone: string;
+    address: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    ssn: string;
+    dob: string;
+    loanTermMonths: string;
     grossMonthlyIncome: number;
     housingStatus: string;
     monthlyHousingPayment: number;
@@ -302,8 +368,25 @@ export const api = {
     request<ApplicationListItem[]>(`/applications/user/applications/${userId}`),
 
   esign: (id: string) =>
-    request<ApplicationStatusView>(`/applications/${id}/esign`, {
+    request<SignAgreementResult>(`/applications/${id}/esign`, {
       method: "POST",
+    }),
+
+  // Fetch the borrower's loan agreement PDF (signed URL) and signature state so
+  // the status portal can display it. Returns null if no PDF is available yet.
+  getAgreement: async (applicationId: string): Promise<Agreement | null> => {
+    const res = await request<{ agreement: Agreement | null }>(
+      `/applications/applications/${applicationId}/agreement`,
+    );
+    return res.agreement;
+  },
+
+  // Record the borrower's e-signature (typed legal name) on the agreement. This
+  // advances the application to VERIFICATION_DEPOSIT and emails the executed PDF.
+  signAgreement: (applicationId: string, fullName: string) =>
+    request<SignAgreementResult>(`/applications/${applicationId}/esign`, {
+      method: "POST",
+      body: JSON.stringify({ fullName }),
     }),
 
   login: (email: string, password?: string) =>
@@ -312,16 +395,16 @@ export const api = {
       body: JSON.stringify({ email, password }),
     }),
 
-  sendOtp: (phone: string) =>
+  sendOtp: (email: string) =>
     request<SendOtpResponse>("/auth/send-otp", {
       method: "POST",
-      body: JSON.stringify({ phone }),
+      body: JSON.stringify({ email }),
     }),
 
-  verifyOtp: (phone: string, otp: string) =>
+  verifyOtp: (email: string, otp: string) =>
     request<LoginResponse>("/auth/verify-otp", {
       method: "POST",
-      body: JSON.stringify({ phone, otp }),
+      body: JSON.stringify({ email, otp }),
     }),
 
   // --- Admin / underwriting (require a bearer token) ---
@@ -329,6 +412,21 @@ export const api = {
     request<Queues>("/underwriting/queues", {
       headers: authHeaders(token),
     }),
+
+  // Flat, searchable application list for the admin table. `q` matches the
+  // applicant's first/last name, email, phone, or the application id; `status`
+  // and `date` (YYYY-MM-DD) narrow the results.
+  searchApplications: (token: string, params: AdminSearchParams = {}) => {
+    const qs = new URLSearchParams();
+    if (params.q?.trim()) qs.set("q", params.q.trim());
+    if (params.status && params.status !== "ALL")
+      qs.set("status", params.status);
+    if (params.date) qs.set("date", params.date);
+    const suffix = qs.toString() ? `?${qs.toString()}` : "";
+    return request<AdminSearchRow[]>(`/underwriting/search${suffix}`, {
+      headers: authHeaders(token),
+    });
+  },
 
   getDualView: (id: string, token: string) =>
     request<DualView>(`/underwriting/${id}`, { headers: authHeaders(token) }),

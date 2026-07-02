@@ -28,6 +28,7 @@ import {
   type AccountAge,
 } from "@/src/lib/api";
 import { clearSession, getSession } from "@/src/lib/session";
+import { SignAgreementBlock } from "@/src/components/marketing/SignAgreementBlock";
 
 // Per-stage "next action" copy keyed off the backend status. Only the current
 // status's CTA is surfaced. SIGN_LOAN_AGREEMENT is interactive (e-sign).
@@ -77,6 +78,23 @@ const NEXT_ACTIONS: Record<
   },
 };
 
+export const formatPhoneNumber = (phone: string) => {
+  let digits = phone.replace(/\D/g, "");
+
+  // Remove leading country code (1) if present
+  if (digits.startsWith("1") && digits.length === 11) {
+    digits = digits.slice(1);
+  }
+
+  digits = digits.slice(0, 10);
+
+  if (digits.length === 10) {
+    return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+  }
+
+  return phone;
+};
+
 function DashboardInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -92,7 +110,9 @@ function DashboardInner() {
   const [apps, setApps] = useState<ApplicationListItem[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [signing, setSigning] = useState(false);
+  // Reveals the review-and-sign agreement document once the borrower clicks
+  // "Review & e-sign" (status SIGN_LOAN_AGREEMENT).
+  const [showAgreement, setShowAgreement] = useState(false);
   // No application to show: neither an `id` in the URL nor a signed-in user.
   const [noApplication, setNoApplication] = useState(false);
   // Controls the "Update bank details" popup shown after BANK_REJECTED.
@@ -179,18 +199,6 @@ function DashboardInner() {
   useEffect(() => {
     load();
   }, [load]);
-
-  async function handleEsign() {
-    if (!id || signing) return;
-    setSigning(true);
-    try {
-      setApp(await api.esign(id));
-    } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Unable to e-sign.");
-    } finally {
-      setSigning(false);
-    }
-  }
 
   // --- Empty / error states ---
   if (loading) {
@@ -347,11 +355,11 @@ function DashboardInner() {
                   </p>
                   {app.status === "SIGN_LOAN_AGREEMENT" ? (
                     <button
-                      onClick={handleEsign}
-                      disabled={signing}
+                      onClick={() => setShowAgreement(true)}
+                      disabled={showAgreement}
                       className="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-7 py-3.5 text-base font-semibold text-white transition hover:bg-blue-700 disabled:opacity-50"
                     >
-                      {signing ? "Signing…" : action.cta} <FaArrowRightLong />
+                      {action.cta} <FaArrowRightLong />
                     </button>
                   ) : (
                     <span className="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-7 py-3.5 text-base font-semibold text-white">
@@ -360,6 +368,17 @@ function DashboardInner() {
                   )}
                 </div>
               )
+            )}
+
+            {/* Review-and-sign agreement — revealed when the borrower clicks
+                "Review & e-sign" while awaiting signature. */}
+            {app.status === "SIGN_LOAN_AGREEMENT" && showAgreement && (
+              <SignAgreementBlock
+                applicationId={app.id}
+                amount={app.requestedAmount}
+                termMonths={app.loanTermMonths}
+                onSigned={load}
+              />
             )}
 
             {/* Status timeline */}
@@ -572,6 +591,21 @@ function ApplicationList({
                         {app.stageLabel}
                       </span>
                     </div>
+                    <p className="mt-2 truncate text-sm text-navy-600">
+                      {[
+                        `${app.user?.firstName ?? ""} ${app.user?.lastName ?? ""}`.trim(),
+                        app.user?.phone
+                          ? formatPhoneNumber(app.user.phone)
+                          : "",
+                        app.user?.email,
+                        app.user?.address,
+                        app.user?.city && app.user?.state
+                          ? `${app.user.city}, ${app.user.state}`
+                          : app.user?.city || app.user?.state,
+                      ]
+                        .filter(Boolean)
+                        .join(" · ")}
+                    </p>
                     <p className="mt-2 truncate text-sm text-navy-600">
                       {app.loanPurpose} · {app.loanTermMonths} months · Applied{" "}
                       {new Date(app.createdAt).toLocaleDateString()}

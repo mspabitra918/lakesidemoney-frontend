@@ -40,3 +40,12 @@ export function DualRow({
     </div>
   );
 }
+
+export function DualRowUser({ label, self }: { label: string; self: string }) {
+  return (
+    <div className="grid grid-cols-[140px_1fr_1fr] items-center gap-3 border-b border-navy-100 py-2.5 last:border-b-0">
+      <span className="text-xs font-medium text-navy-500">{label}</span>
+      <span className={`text-navy-800`}>{self}</span>
+    </div>
+  );
+}

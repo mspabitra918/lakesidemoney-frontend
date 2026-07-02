@@ -20,7 +20,7 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
 
   // Mobile login states
-  const [mobileNumber, setMobileNumber] = useState("");
+  const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [otpLoading, setOtpLoading] = useState(false);
@@ -68,14 +68,14 @@ export default function LoginPage() {
 
   // Handle sending OTP
   const handleSendOtp = async () => {
-    if (!mobileNumber || mobileNumber.length < 10) {
-      // toast.error("Please enter a valid 10-digit mobile number");
+    if (!email) {
+      // toast.error("Please enter a valid 10-digit mobile email");
       return;
     }
     setOtpLoading(true);
     setError(null);
     try {
-      await api.sendOtp(mobileNumber);
+      await api.sendOtp(email);
       setOtpSent(true);
       setOtpTimer(30); // 30 seconds countdown for resend
     } catch (err) {
@@ -99,7 +99,7 @@ export default function LoginPage() {
     setOtpLoading(true);
     setError(null);
     try {
-      const response = await api.verifyOtp(mobileNumber, otp);
+      const response = await api.verifyOtp(email, otp);
       // Persist a session so the dashboard knows which user to load.
       saveSession("user", {
         accessToken: response.access_token,
@@ -109,7 +109,7 @@ export default function LoginPage() {
         role: "customer",
       });
       setOtpSent(false);
-      setMobileNumber("");
+      setEmail("");
       setOtp("");
       // No application id in the URL — the dashboard resolves the user's latest
       // application from the saved session.
@@ -202,24 +202,23 @@ export default function LoginPage() {
               <div className="space-y-4 p-4 sm:p-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Mobile Number
+                    Enter your application email
                   </label>
+                  <p className="text-sm text-gray-500 mb-2">
+                    We&apos;ll send you a 6-digit OTP to verify your email.
+                  </p>
                   <div className="flex">
                     {/* <span className="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
                       +91
                     </span> */}
                     <input
-                      type="tel"
+                      type="email"
                       // maxLength={10}
-                      value={mobileNumber}
-                      onChange={(e) =>
-                        setMobileNumber(
-                          formatUSPhone(e.target.value.replace(/\D/g, "")),
-                        )
-                      }
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       // className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-purple-500 focus:ring-purple-500 text-gray-900 placeholder-gray-600"
                       className="w-full rounded-xl border border-navy-200 bg-white px-4 py-3 text-navy-900 placeholder:text-navy-300 transition focus:border-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
-                      placeholder="Enter 10 digit mobile number"
+                      placeholder="Enter your email"
                     />
                   </div>
                 </div>
@@ -234,7 +233,7 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={handleSendOtp}
-                  disabled={otpLoading || mobileNumber.length < 10}
+                  disabled={otpLoading || !email}
                   className="w-full rounded-lg bg-purple-600 text-white py-3 font-medium hover:bg-purple-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {otpLoading ? "Sending..." : "Send OTP"}
@@ -299,7 +298,7 @@ export default function LoginPage() {
                   }}
                   className="w-full text-sm text-gray-500 hover:text-gray-700"
                 >
-                  Change mobile number
+                  Change application email
                 </button>
               </form>
             )}

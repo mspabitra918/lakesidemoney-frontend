@@ -2,12 +2,13 @@
 // Labels + helpers
 // ---------------------------------------------------------------------------
 
-type QueueRow = {
+export type QueueRow = {
   id: string;
   status: string;
   requestedAmount: number;
   calculatedDti: number;
   statusReason: string | null;
+  createdAt: string;
 };
 
 import { DualView, Queues } from "@/src/lib/api";
@@ -37,6 +38,19 @@ export const RELEASABLE_STATUSES = [
 // Terminal / non-actionable statuses — Decline is hidden for these.
 export const TERMINAL_STATUSES = ["DECLINED", "FUNDED", "BANK_REJECTED"];
 
+// The work-queue statuses surfaced in the admin table's status filter. Mirrors
+// the backend's QUEUE_STATUSES (underwriting.service).
+export const QUEUE_STATUS_OPTIONS = [
+  "PENDING_VERIFICATION",
+  "MANUAL_REVIEW",
+  "BANK_REJECTED",
+  "PHONE_VERIFICATION_PENDING",
+  "SIGN_LOAN_AGREEMENT",
+  "VERIFICATION_DEPOSIT",
+  "DECLINED",
+  "FUNDED",
+];
+
 // A flat list row built from the per-status queue buckets.
 export function flattenQueues(queues: Queues): QueueRow[] {
   return Object.entries(queues).flatMap(([status, items]) =>
@@ -46,6 +60,7 @@ export function flattenQueues(queues: Queues): QueueRow[] {
       requestedAmount: it.requestedAmount,
       calculatedDti: it.calculatedDti,
       statusReason: it.statusReason,
+      createdAt: it.createdAt,
     })),
   );
 }

@@ -15,12 +15,14 @@ export default function ESignConsentPage() {
       <PageHeader eyebrow="Legal" title="E-Sign Consent Disclosure" />
       <section className="container-x pb-20">
         <div className="max-w-3xl space-y-6">
-          <div className="rounded-xl border border-star-200 bg-star-50 p-4 text-sm text-navy-700">
-            This is a template and should be reviewed by qualified counsel before
-            launch.
+          <div className="rounded-xl border border-star-200 bg-star-50 p-4 text-sm text-navy-700 mt-4">
+            This is a template and should be reviewed by qualified counsel
+            before launch.
           </div>
 
-          <p className="text-navy-700 leading-relaxed">Last updated: June 2026</p>
+          <p className="text-navy-700 leading-relaxed">
+            Last updated: June 2026
+          </p>
 
           <h2 className="text-2xl font-bold text-navy-900 mt-10 mb-3">
             Consent to electronic records and signatures
@@ -55,7 +57,9 @@ export default function ESignConsentPage() {
             <li>A current version of a major web browser</li>
             <li>A valid email account and the ability to receive email</li>
             <li>Software capable of viewing and saving PDF documents</li>
-            <li>Sufficient storage or a printer to retain copies of your records</li>
+            <li>
+              Sufficient storage or a printer to retain copies of your records
+            </li>
           </ul>
 
           <h2 className="text-2xl font-bold text-navy-900 mt-10 mb-3">
@@ -73,8 +77,8 @@ export default function ESignConsentPage() {
             Requesting paper copies
           </h2>
           <p className="text-navy-700 leading-relaxed">
-            You may request a paper copy of any electronic record at no charge by
-            contacting us at {BRAND.email} or by calling {BRAND.phone}.
+            You may request a paper copy of any electronic record at no charge
+            by contacting us at {BRAND.email} or by calling {BRAND.phone}.
           </p>
 
           <h2 className="text-2xl font-bold text-navy-900 mt-10 mb-3">

@@ -15,12 +15,14 @@ export default function TermsPage() {
       <PageHeader eyebrow="Legal" title="Terms of Service" />
       <section className="container-x pb-20">
         <div className="max-w-3xl space-y-6">
-          <div className="rounded-xl border border-star-200 bg-star-50 p-4 text-sm text-navy-700">
-            This is a template and should be reviewed by qualified counsel before
-            launch.
+          <div className="rounded-xl border border-star-200 bg-star-50 p-4 text-sm text-navy-700 mt-4">
+            This is a template and should be reviewed by qualified counsel
+            before launch.
           </div>
 
-          <p className="text-navy-700 leading-relaxed">Last updated: June 2026</p>
+          <p className="text-navy-700 leading-relaxed">
+            Last updated: June 2026
+          </p>
 
           <h2 className="text-2xl font-bold text-navy-900 mt-10 mb-3">
             Acceptance of these terms
@@ -28,8 +30,8 @@ export default function TermsPage() {
           <p className="text-navy-700 leading-relaxed">
             These Terms of Service (&ldquo;Terms&rdquo;) govern your access to
             and use of {BRAND.domain} and the services offered by{" "}
-            {BRAND.legalName} (&ldquo;{BRAND.name}&rdquo;). By accessing our site
-            or applying for a loan, you agree to these Terms. If you do not
+            {BRAND.legalName} (&ldquo;{BRAND.name}&rdquo;). By accessing our
+            site or applying for a loan, you agree to these Terms. If you do not
             agree, do not use our services.
           </p>
 
@@ -59,10 +61,12 @@ export default function TermsPage() {
               Loan amounts from {formatUSD(LOAN.minAmount)} to{" "}
               {formatUSD(LOAN.maxAmount)}
             </li>
-            <li>{formatUSD(LOAN.upfrontFees)} origination and application fees</li>
             <li>
-              A funding goal of {LOAN.fundingHours} hours after you sign and your
-              bank account is verified
+              {formatUSD(LOAN.upfrontFees)} origination and application fees
+            </li>
+            <li>
+              A funding goal of {LOAN.fundingHours} hours after you sign and
+              your bank account is verified
             </li>
           </ul>
           <p className="text-navy-700 leading-relaxed">
@@ -102,7 +106,8 @@ export default function TermsPage() {
           <p className="text-navy-700 leading-relaxed">
             You agree that all information you provide is true, accurate, and
             complete, and that you will keep it up to date. Providing false
-            information may result in denial of your application or other action.
+            information may result in denial of your application or other
+            action.
           </p>
 
           <h2 className="text-2xl font-bold text-navy-900 mt-10 mb-3">
@@ -110,8 +115,8 @@ export default function TermsPage() {
           </h2>
           <p className="text-navy-700 leading-relaxed">
             All content on this site, including text, graphics, logos, and
-            software, is owned by or licensed to {BRAND.name} and is protected by
-            applicable intellectual property laws. You may not reproduce or
+            software, is owned by or licensed to {BRAND.name} and is protected
+            by applicable intellectual property laws. You may not reproduce or
             distribute it without our written permission.
           </p>
 
@@ -146,9 +151,9 @@ export default function TermsPage() {
             Changes to these terms
           </h2>
           <p className="text-navy-700 leading-relaxed">
-            We may update these Terms from time to time. Material changes will be
-            posted on this page with an updated date, and your continued use of
-            our services constitutes acceptance of the revised Terms.
+            We may update these Terms from time to time. Material changes will
+            be posted on this page with an updated date, and your continued use
+            of our services constitutes acceptance of the revised Terms.
           </p>
 
           <h2 className="text-2xl font-bold text-navy-900 mt-10 mb-3">

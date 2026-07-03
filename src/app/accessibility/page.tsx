@@ -15,22 +15,24 @@ export default function AccessibilityPage() {
       <PageHeader eyebrow="Legal" title="Accessibility Statement" />
       <section className="container-x pb-20">
         <div className="max-w-3xl space-y-6">
-          <div className="rounded-xl border border-star-200 bg-star-50 p-4 text-sm text-navy-700">
-            This is a template and should be reviewed by qualified counsel before
-            launch.
+          <div className="rounded-xl border border-star-200 bg-star-50 p-4 text-sm text-navy-700 mt-4">
+            This is a template and should be reviewed by qualified counsel
+            before launch.
           </div>
 
-          <p className="text-navy-700 leading-relaxed">Last updated: June 2026</p>
+          <p className="text-navy-700 leading-relaxed">
+            Last updated: June 2026
+          </p>
 
           <h2 className="text-2xl font-bold text-navy-900 mt-10 mb-3">
             Our commitment
           </h2>
           <p className="text-navy-700 leading-relaxed">
             {BRAND.legalName} is committed to ensuring that {BRAND.domain} is
-            accessible to everyone, including people with disabilities. We aim to
-            conform to the Web Content Accessibility Guidelines (WCAG) 2.1 at the
-            AA level, which describe how to make web content more accessible to a
-            wide range of people.
+            accessible to everyone, including people with disabilities. We aim
+            to conform to the Web Content Accessibility Guidelines (WCAG) 2.1 at
+            the AA level, which describe how to make web content more accessible
+            to a wide range of people.
           </p>
 
           <h2 className="text-2xl font-bold text-navy-900 mt-10 mb-3">
@@ -47,8 +49,8 @@ export default function AccessibilityPage() {
             Feedback
           </h2>
           <p className="text-navy-700 leading-relaxed">
-            We welcome your feedback. If you encounter any accessibility barriers
-            or have suggestions for improvement, please contact us:
+            We welcome your feedback. If you encounter any accessibility
+            barriers or have suggestions for improvement, please contact us:
           </p>
           <ul className="list-disc pl-6 space-y-2 text-navy-700">
             <li>

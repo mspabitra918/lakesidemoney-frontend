@@ -260,12 +260,38 @@ export default function ApplyPage() {
     // validate on this step.
     if (target === 1 && !locked) {
       if (!form.first_name.trim()) next.first_name = "First name is required.";
-      if (!form.dob) next.dob = "Date of birth is required.";
+      if (!form.dob) {
+        next.dob = "Date of birth is required.";
+      } else {
+        const [month, day, year] = form.dob.split("/").map(Number);
+
+        const dob = new Date(year, month - 1, day);
+        const today = new Date();
+
+        let age = today.getFullYear() - dob.getFullYear();
+        const monthDiff = today.getMonth() - dob.getMonth();
+
+        if (
+          monthDiff < 0 ||
+          (monthDiff === 0 && today.getDate() < dob.getDate())
+        ) {
+          age--;
+        }
+
+        if (age < 18) {
+          next.dob = "You must be at least 18 years old to apply.";
+        }
+      }
       if (!form.ssn) next.ssn = "SSN is required.";
       if (!form.address.trim()) next.address = "Your address is required.";
       if (!form.city.trim()) next.city = "Your city is required.";
       if (!form.state.trim()) next.state = "Your state is required.";
-      if (!form.zip_code.trim()) next.zip_code = "Your zip code is required.";
+      if (!form.zip_code.trim()) {
+        next.zip_code = "ZIP code is required.";
+      } else if (!/^\d{5}(-\d{4})?$/.test(form.zip_code.trim())) {
+        next.zip_code =
+          "Enter a valid US ZIP code (e.g., 92651 or 92651-1234).";
+      }
       if (!form.last_name.trim()) next.last_name = "Last name is required.";
       if (!EMAIL_RE.test(form.email))
         next.email = "Enter a valid email address.";
@@ -1316,11 +1342,37 @@ export default function ApplyPage() {
                           className="mt-0.5 h-4 w-4 shrink-0 accent-blue-600"
                         />
                         <span className="text-sm text-navy-600">
-                          I consent to be contacted by phone/SMS/email,
+                          {/* I consent to be contacted by phone/SMS/email,
                           including autodialed calls and pre-recorded messages,
                           at the number provided, even if it&apos;s on a
                           Do-Not-Call list. Consent isn&apos;t a condition of
-                          any purchase.
+                          any purchase. */}
+                          I have read and agree to the{" "}
+                          <Link
+                            target="_blank"
+                            href="/terms"
+                            className="text-blue-600 underline"
+                          >
+                            Terms & Conditions
+                          </Link>{" "}
+                          and{" "}
+                          <Link
+                            target="_blank"
+                            href="/privacy-policy"
+                            className="text-blue-600 underline"
+                          >
+                            Privacy Policy
+                          </Link>
+                          . By checking this box, I consent to be contacted by{" "}
+                          <strong>Oakhill Loans</strong> via phone, SMS/text
+                          message, and email at the contact information I have
+                          provided, including through the use of autodialed
+                          calls, prerecorded or artificial voice messages, and
+                          automated text messages, even if my telephone number
+                          is listed on a federal, state, or internal Do-Not-Call
+                          list. I understand that my consent is not a condition
+                          of obtaining a loan or purchasing any goods or
+                          services.
                         </span>
                       </label>
                       <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-navy-200 p-4 transition focus-within:ring-2 focus-within:ring-blue-400 hover:border-navy-300">

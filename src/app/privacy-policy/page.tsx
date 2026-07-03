@@ -15,9 +15,9 @@ export default function PrivacyPolicyPage() {
       <PageHeader eyebrow="Legal" title="Privacy Policy" />
       <section className="container-x pb-20">
         <div className="max-w-3xl space-y-6">
-          <div className="rounded-xl border border-star-200 bg-star-50 p-4 text-sm text-navy-700">
-            This is a template and should be reviewed by qualified counsel before
-            launch.
+          <div className="rounded-xl border border-star-200 bg-star-50 p-4 text-sm text-navy-700 mt-4">
+            This is a template and should be reviewed by qualified counsel
+            before launch.
           </div>
 
           <p className="text-navy-700 leading-relaxed">
@@ -40,11 +40,18 @@ export default function PrivacyPolicyPage() {
             identifiable information (PII) that may include:
           </p>
           <ul className="list-disc pl-6 space-y-2 text-navy-700">
-            <li>Your name, date of birth, and contact details (address, email, phone)</li>
+            <li>
+              Your name, date of birth, and contact details (address, email,
+              phone)
+            </li>
             <li>Income, employment, and housing information</li>
-            <li>Bank account and routing details used for verification and funding</li>
+            <li>
+              Bank account and routing details used for verification and funding
+            </li>
             <li>Your Social Security number (SSN) for identity verification</li>
-            <li>Device and usage information generated when you visit our site</li>
+            <li>
+              Device and usage information generated when you visit our site
+            </li>
           </ul>
 
           <h2 className="text-2xl font-bold text-navy-900 mt-10 mb-3">
@@ -103,12 +110,17 @@ export default function PrivacyPolicyPage() {
           <p className="text-navy-700 leading-relaxed">
             As a financial institution, we provide privacy notices consistent
             with the Gramm-Leach-Bliley Act (GLBA). Depending on where you live,
-            the California Consumer Privacy Act (CCPA) and similar state laws may
-            give you the right to:
+            the California Consumer Privacy Act (CCPA) and similar state laws
+            may give you the right to:
           </p>
           <ul className="list-disc pl-6 space-y-2 text-navy-700">
-            <li>Request access to the personal information we hold about you</li>
-            <li>Request deletion of your personal information, subject to legal exceptions</li>
+            <li>
+              Request access to the personal information we hold about you
+            </li>
+            <li>
+              Request deletion of your personal information, subject to legal
+              exceptions
+            </li>
             <li>Opt out of certain sharing of your personal information</li>
             <li>Not be discriminated against for exercising your rights</li>
           </ul>
@@ -122,8 +134,8 @@ export default function PrivacyPolicyPage() {
           <p className="text-navy-700 leading-relaxed">
             We retain your information for as long as needed to provide our
             services and to satisfy legal, regulatory, tax, accounting, and
-            recordkeeping obligations. When information is no longer required, we
-            securely delete or de-identify it.
+            recordkeeping obligations. When information is no longer required,
+            we securely delete or de-identify it.
           </p>
 
           <h2 className="text-2xl font-bold text-navy-900 mt-10 mb-3">
@@ -140,7 +152,10 @@ export default function PrivacyPolicyPage() {
           </h2>
           <p className="text-navy-700 leading-relaxed">
             Questions? Contact support@oakhillloans.com or visit our{" "}
-            <Link href="/contact" className="font-semibold text-blue-600 hover:text-blue-700">
+            <Link
+              href="/contact"
+              className="font-semibold text-blue-600 hover:text-blue-700"
+            >
               contact page
             </Link>
             .

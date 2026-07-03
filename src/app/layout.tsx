@@ -5,6 +5,8 @@ import { BRAND, LOAN } from "../lib/constants";
 import ConditionalLayout from "../components/layout/ConditionalLayout";
 import { loanProductSchema, organizationSchema } from "../lib/schema";
 import { JsonLd } from "../components/layout/JsonLd";
+import { GoogleAnalytics } from "@next/third-parties/google";
+import AnalyticsClient from "../components/AnalyticsClient";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -50,7 +52,11 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col bg-white text-[#0a1830]">
         <JsonLd data={[organizationSchema(), loanProductSchema()]} />
 
-        <ConditionalLayout>{children}</ConditionalLayout>
+        <ConditionalLayout>
+          {children}
+          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID!} />
+          <AnalyticsClient />
+        </ConditionalLayout>
       </body>
     </html>
   );

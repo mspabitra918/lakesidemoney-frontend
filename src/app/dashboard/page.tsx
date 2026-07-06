@@ -121,10 +121,12 @@ function DashboardInner() {
   const handleOpenBankModal = () => {
     const params = new URLSearchParams(searchParams.toString());
 
-    params.set("id", app?.id || ""); // Ensure the application ID is included in the URL
+    params.set("id", app?.id || "");
     params.set("bankModalOpen", "open");
 
-    router.push(`${pathname}?${params.toString()}`);
+    router.replace(`${pathname}?${params.toString()}`, {
+      scroll: false,
+    });
 
     setBankModalOpen(true);
   };
@@ -134,7 +136,11 @@ function DashboardInner() {
 
     params.delete("bankModalOpen");
 
-    router.push(`${pathname}?${params.toString()}`);
+    const url = params.toString()
+      ? `${pathname}?${params.toString()}`
+      : pathname;
+
+    router.replace(url, { scroll: false });
 
     setBankModalOpen(false);
   };

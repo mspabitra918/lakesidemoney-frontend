@@ -128,10 +128,12 @@ function DashboardInner() {
 
   // The modal open state is seeded from ?bankModalOpen=open above (the email
   // deep-link). Treat that flag as one-shot: once consumed, strip it from the
-  // address bar via history.replaceState (not router.replace) so the URL is
-  // cleaned without a Next navigation. Keeping the modal state independent of
-  // the URL means closing it sticks and links like "All applications" aren't
-  // blocked or re-opened by a lingering param.
+  // URL with router.replace so the address bar is cleaned. We must NOT use
+  // window.history.replaceState here — that desyncs Next's App Router state and
+  // silently breaks later <Link> navigations to the same pathname (e.g. the
+  // "All applications" link stops working). Because the modal state is seeded
+  // once and no longer read back from the URL, stripping the param is safe and
+  // closing the modal sticks.
   const bankDeepLinkConsumed = useRef(false);
   useEffect(() => {
     if (bankDeepLinkConsumed.current) return;
@@ -141,13 +143,11 @@ function DashboardInner() {
       const params = new URLSearchParams(searchParams.toString());
       params.delete("bankModalOpen");
       const query = params.toString();
-      window.history.replaceState(
-        null,
-        "",
-        query ? `${pathname}?${query}` : pathname,
-      );
+      router.replace(query ? `${pathname}?${query}` : pathname, {
+        scroll: false,
+      });
     }
-  }, [searchParams, pathname]);
+  }, [searchParams, pathname, router]);
 
   const load = useCallback(async () => {
     setLoading(true);

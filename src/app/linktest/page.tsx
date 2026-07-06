@@ -27,9 +27,9 @@ function Inner() {
       const params = new URLSearchParams(searchParams.toString());
       params.delete("bankModalOpen");
       const q = params.toString();
-      window.history.replaceState(null, "", q ? `${pathname}?${q}` : pathname);
+      router.replace(q ? `${pathname}?${q}` : pathname, { scroll: false });
     }
-  }, [searchParams, pathname]);
+  }, [searchParams, pathname, router]);
 
   const load = useCallback(async () => {
     setLoading(true);

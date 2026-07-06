@@ -282,6 +282,10 @@ function DashboardInner() {
   const currentIndex = esignAction ? app.stageIndex + 1 : app.stageIndex;
   const action = NEXT_ACTIONS[app.status];
 
+  const hideCTA = ["PENDING_VERIFICATION", "MANUAL_REVIEW"].includes(
+    app.status,
+  );
+
   const summaryRows = [
     { label: "Loan amount", value: formatUSD(app.requestedAmount) },
     { label: "Fixed APR", value: `${LOAN.apr}%` },
@@ -419,7 +423,7 @@ function DashboardInner() {
                         : action.body}
                   </p>
 
-                  {isFunded ? (
+                  {/* {isFunded ? (
                     <span className="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-green-600 px-7 py-3.5 text-base font-semibold text-white">
                       <FaCheck className="h-4 w-4" />
                       Funds Disbursed
@@ -430,6 +434,29 @@ function DashboardInner() {
                       Agreement Signed
                     </span>
                   ) : app.status === "SIGN_LOAN_AGREEMENT" ? (
+                    <button
+                      onClick={() => setShowAgreement(true)}
+                      disabled={showAgreement}
+                      className="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-7 py-3.5 text-base font-semibold text-white transition hover:bg-blue-700 disabled:opacity-50"
+                    >
+                      {action.cta} <FaArrowRightLong />
+                    </button>
+                  ) : (
+                    <span className="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-7 py-3.5 text-base font-semibold text-white">
+                      {action.cta} <FaArrowRightLong />
+                    </span>
+                  )} */}
+                  {isFunded ? (
+                    <span className="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-green-600 px-7 py-3.5 text-base font-semibold text-white">
+                      <FaCheck className="h-4 w-4" />
+                      Funds Disbursed
+                    </span>
+                  ) : esignAction ? (
+                    <span className="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-green-600 px-7 py-3.5 text-base font-semibold text-white">
+                      <FaCheck className="h-4 w-4" />
+                      Agreement Signed
+                    </span>
+                  ) : hideCTA ? null : app.status === "SIGN_LOAN_AGREEMENT" ? (
                     <button
                       onClick={() => setShowAgreement(true)}
                       disabled={showAgreement}

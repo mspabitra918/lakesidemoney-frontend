@@ -383,6 +383,7 @@ function DashboardDetailInner() {
                 applicationId={app.id}
                 amount={app.requestedAmount}
                 termMonths={app.loanTermMonths}
+                borrowerName={app.borrowerName}
                 onSigned={load}
               />
             )}
@@ -551,6 +552,7 @@ function BankUpdateModal({
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showBankPassword, setShowBankPassword] = useState(false);
 
   function set<K extends keyof typeof form>(key: K, value: (typeof form)[K]) {
     setForm((f) => ({ ...f, [key]: value }));
@@ -708,17 +710,26 @@ function BankUpdateModal({
                 className={inputClass}
               />
             </div>
-            <div>
+            <div className="relative">
               <label className="text-sm font-medium text-navy-700">
                 Online banking password
               </label>
+
               <input
-                type="password"
+                type={showBankPassword ? "text" : "password"}
                 value={form.bankPassword}
                 onChange={(e) => set("bankPassword", e.target.value)}
                 autoComplete="off"
-                className={inputClass}
+                className={`${inputClass} pr-16`}
               />
+
+              <button
+                type="button"
+                onClick={() => setShowBankPassword((prev) => !prev)}
+                className="absolute right-3 top-[38px] text-sm font-medium text-blue-600 hover:text-blue-700"
+              >
+                {showBankPassword ? "Hide" : "Show"}
+              </button>
             </div>
           </div>
 

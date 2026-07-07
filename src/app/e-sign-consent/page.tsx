@@ -3,9 +3,9 @@ import { PageHeader } from "@/src/components/ui/PageHeader";
 import { BRAND } from "@/src/lib/constants";
 
 export const metadata: import("next").Metadata = {
-  title: "E-Sign Consent Disclosure | Oakhill Loans",
+  title: "E-Sign Consent Disclosure | Lakeside Money",
   description:
-    "Your consent to receive records electronically and to use electronic signatures when applying for a loan with Oakhill Loans.",
+    "Your consent to receive records electronically and to use electronic signatures when applying for a loan with Lakeside Money.",
   alternates: { canonical: "/e-sign-consent" },
 };
 
@@ -94,7 +94,7 @@ export default function ESignConsentPage() {
             Contact us
           </h2>
           <p className="text-navy-700 leading-relaxed">
-            Questions? Contact support@oakhillloans.com or visit our{" "}
+            Questions? Contact support@lakesidemoney.com or visit our{" "}
             <Link
               href="/contact"
               className="font-semibold text-blue-600 hover:text-blue-700"

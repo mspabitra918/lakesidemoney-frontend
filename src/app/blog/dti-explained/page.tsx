@@ -4,7 +4,7 @@ import { PageHeader } from "@/src/components/ui/PageHeader";
 import { CtaBand } from "@/src/components/ui/CtaBand";
 
 export const metadata: import("next").Metadata = {
-  title: "DTI Explained: What Your Debt-to-Income Ratio Means | Oakhill Loans",
+  title: "DTI Explained: What Your Debt-to-Income Ratio Means | Lakeside Money",
   description:
     "A plain-language guide to your debt-to-income ratio: how it's calculated, why lenders use it, what counts as a good DTI, and how to improve yours.",
   alternates: { canonical: "/blog/dti-explained" },
@@ -119,10 +119,10 @@ export default function DtiExplainedPage() {
           </p>
 
           <h2 className="text-2xl font-bold text-navy-900 mt-10 mb-3">
-            How Oakhill approaches it
+            How Lakeside approaches it
           </h2>
           <p className="text-navy-700 leading-relaxed">
-            At Oakhill Loans, we use our own internal decisioning rather than a
+            At Lakeside Money, we use our own internal decisioning rather than a
             single credit-bureau cutoff. We look at your full picture, including
             income and affordability, so your DTI is one factor among several
             rather than a hard pass-or-fail gate. That means it is always worth

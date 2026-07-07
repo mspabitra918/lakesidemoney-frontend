@@ -43,8 +43,8 @@ export function Header() {
           aria-label={BRAND.name}
         >
           <span className="text-xl font-bold tracking-tight text-navy-900 ">
-            Oakhill
-            <span className="text-blue-700"> Loans</span>
+            Lakeside
+            <span className="text-blue-700"> Money</span>
           </span>
         </Link>
 

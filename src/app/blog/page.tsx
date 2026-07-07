@@ -3,9 +3,9 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { PageHeader } from "@/src/components/ui/PageHeader";
 
 export const metadata: import("next").Metadata = {
-  title: "Blog — Financial Literacy, Explained | Oakhill Loans",
+  title: "Blog — Financial Literacy, Explained | Lakeside Money",
   description:
-    "Practical guides on credit, debt, and borrowing smarter from the Oakhill Loans team.",
+    "Practical guides on credit, debt, and borrowing smarter from the Lakeside Money team.",
   alternates: { canonical: "/blog" },
 };
 

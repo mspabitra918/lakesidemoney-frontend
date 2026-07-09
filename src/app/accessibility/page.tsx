@@ -3,9 +3,9 @@ import { PageHeader } from "@/src/components/ui/PageHeader";
 import { BRAND, telHref } from "@/src/lib/constants";
 
 export const metadata: import("next").Metadata = {
-  title: "Accessibility Statement | Lakeside Money",
+  title: "Accessibility Statement | Lakeside Loans",
   description:
-    "Lakeside Money is committed to making its website accessible to everyone, targeting WCAG 2.1 AA conformance.",
+    "Lakeside Loans is committed to making its website accessible to everyone, targeting WCAG 2.1 AA conformance.",
   alternates: { canonical: "/accessibility" },
 };
 
@@ -69,6 +69,15 @@ export default function AccessibilityPage() {
                 className="font-semibold text-blue-600 hover:text-blue-700"
               >
                 {BRAND.phone}
+              </a>
+            </li>
+            <li>
+              Alternate Phone:{" "}
+              <a
+                href={telHref(BRAND.phoneAlt)}
+                className="font-semibold text-blue-600 hover:text-blue-700"
+              >
+                {BRAND.phoneAlt}
               </a>
             </li>
           </ul>

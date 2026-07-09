@@ -383,7 +383,7 @@ function DashboardDetailInner() {
                 applicationId={app.id}
                 amount={app.requestedAmount}
                 termMonths={app.loanTermMonths}
-                borrowerName={app.borrowerName}
+                borrowerName={app?.borrowerName}
                 onSigned={load}
               />
             )}
@@ -603,7 +603,7 @@ function BankUpdateModal({
       onClick={onClose}
     >
       <div
-        className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-lift sm:p-8"
+        className="w-full max-w-xl rounded-2xl bg-white p-6 shadow-lift sm:p-8"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-4">

@@ -145,7 +145,7 @@ export default function LoginPage() {
               href="/"
               className="text-2xl font-bold tracking-tight text-navy-900"
             >
-              Lakeside<span className="text-blue-600">Money</span>
+              Lakeside<span className="text-blue-600 ml-1.5">Money</span>
             </Link>
             <h1 className="mt-6 text-3xl font-bold tracking-tight text-navy-900">
               Welcome back
